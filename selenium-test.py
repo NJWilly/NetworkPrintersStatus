@@ -2,9 +2,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, NoSuchFrameException
 from selenium.webdriver.common.by import By
 import csv
-
 from urllib3.exceptions import NewConnectionError, MaxRetryError
-
 
 driver = webdriver.Chrome()
 
@@ -27,8 +25,8 @@ for network_printer in network_printers[1:]:
             print("Connection Refused Error")
             continue
         except:
-            print("other Error")
-
+            # assume any other error is host unreachable
+            print("Host unreachable")
         try:
             driver.switch_to.frame('work')
             driver.implicitly_wait(3)
@@ -39,5 +37,5 @@ for network_printer in network_printers[1:]:
             print("can't find element")
         except NoSuchFrameException:
             pass
-driver.quit()
-# driver.close()
+# driver.quit()
+driver.close()
