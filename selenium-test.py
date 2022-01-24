@@ -1,8 +1,10 @@
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException, NoSuchFrameException
 from selenium.webdriver.common.by import By
 import csv
 
 from urllib3.exceptions import NewConnectionError, MaxRetryError
+
 
 driver = webdriver.Chrome()
 
@@ -15,10 +17,6 @@ for network_printer in network_printers[1:]:
         print(network_printer[3], end=' ')
         try:
             driver.get(network_printer[3])
-            # driver.implicitly_wait(3)
-            # elem = driver.find_element(By.TAG_NAME, "title")
-            print("success")
-            # print(elem.text)
         except NewConnectionError:
             print(f'Error connecting to {network_printer[3]}')
             continue
@@ -31,5 +29,15 @@ for network_printer in network_printers[1:]:
         except:
             print("other Error")
 
+        try:
+            driver.switch_to.frame('work')
+            driver.implicitly_wait(3)
+            elem = driver.find_element(By.XPATH, "//dd[@class='word-wrap']")
+            # print("success")
+            print(elem.text)
+        except NoSuchElementException:
+            print("can't find element")
+        except NoSuchFrameException:
+            pass
 driver.quit()
 # driver.close()
