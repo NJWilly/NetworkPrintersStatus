@@ -13,7 +13,7 @@ with open('NetworkPrinters.csv', newline='') as f:
 
 for network_printer in network_printers[1:]:
     if len(network_printer[3]) != 0:
-        print(network_printer[3], end=' ')
+        print(f'Ackerson {network_printer[0]} ({network_printer[3]}) ', end=' ')
         try:
             driver.get(network_printer[3])
         except NewConnectionError:
@@ -37,5 +37,4 @@ for network_printer in network_printers[1:]:
             print("can't find element")
         except NoSuchFrameException:
             print("Cant find frame")
-# driver.quit()
 driver.close()
