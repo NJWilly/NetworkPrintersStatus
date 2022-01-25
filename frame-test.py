@@ -28,14 +28,20 @@ for network_printer in network_printers[1:]:
         except:
             # assume any other error is host unreachable
             print("Host unreachable")
-        sleep(1)
-        try:
-            driver.switch_to.frame('work')
-            elem = driver.find_element(By.XPATH, "//dd[@class='word-wrap']")
-            print(elem.text)
-        except NoSuchElementException:
-            print("can't find element")
-        except NoSuchFrameException:
-            print("Cant find frame")
+        # driver.implicitly_wait(30)
+        sleep(10)
+        frames = [0, 1, 2, 3, 4]
+        element = "//dd[@class='word-wrap']"
+        for frame in frames:
+            try:
+                driver.switch_to.frame(frame)
+                if driver.find_element(By.XPATH, element).is_displayed():
+                    print("found element " + element + " in frame " + str(frame))
+                    driver.switch_to.parent_frame()
+            except:
+                driver.switch_to.parent_frame()
+                print(" element: " + element + " was not found in frame: " + str(frame))
+
+
 # driver.quit()
 driver.close()
