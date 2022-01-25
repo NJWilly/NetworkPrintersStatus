@@ -4,8 +4,10 @@ from selenium.webdriver.common.by import By
 import csv
 from urllib3.exceptions import NewConnectionError, MaxRetryError
 from time import sleep
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
 with open('NetworkPrinters.csv', newline='') as f:
     reader = csv.reader(f)
@@ -13,7 +15,7 @@ with open('NetworkPrinters.csv', newline='') as f:
 
 for network_printer in network_printers[1:]:
     if len(network_printer[3]) != 0:
-        print(network_printer[3], end=' ')
+        print(f'Ackerson {network_printer[0]} ({network_printer[3]}) ', end=' ')
         try:
             driver.get(network_printer[3])
         except NewConnectionError:
@@ -37,5 +39,4 @@ for network_printer in network_printers[1:]:
             print("can't find element")
         except NoSuchFrameException:
             print("Cant find frame")
-# driver.quit()
 driver.close()
