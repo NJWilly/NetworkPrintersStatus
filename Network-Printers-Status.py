@@ -4,15 +4,20 @@ from selenium.webdriver.common.by import By
 import csv
 from urllib3.exceptions import NewConnectionError, MaxRetryError
 from time import sleep
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver import ChromeOptions
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+# Setup chrome webdriver
+options = ChromeOptions()
+options.add_argument("--headless")
+options.add_argument("--disable-dev-shm-usage")
+driver = webdriver.Chrome(options=options)
 
+# load from csv list of printers
 with open('NetworkPrinters.csv', newline='') as f:
     reader = csv.reader(f)
     network_printers = list(reader)
 
+# retrieve and print printer status for all printers
 for network_printer in network_printers[1:]:
     if len(network_printer[3]) != 0:
         print(f'Ackerson {network_printer[0]} ({network_printer[3]}) ', end=' ')
