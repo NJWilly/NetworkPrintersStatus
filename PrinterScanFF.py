@@ -6,6 +6,9 @@ import csv
 from urllib3.exceptions import NewConnectionError, MaxRetryError
 from time import sleep
 
+# use this command to install the dependencies
+# pip install -r requirements.txt
+
 # Specify the path to the GeckoDriver executable
 driver_path = 'c:/users/wnoel'
 
